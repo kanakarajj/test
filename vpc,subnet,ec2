@@ -1,0 +1,74 @@
+NEW VPC,SUBNET AND EC2
+
+provider "aws" {
+  version    = "~> 3.0"
+  access_key = "AKIAYZQN4TXVUA6LYEOO"
+  secret_key = "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"
+  region     = "us-east-1"
+}
+#VPC
+resource "aws_vpc" "demo-vpc" {
+  cidr_block       = "10.0.0.0/16"
+  instance_tenancy = "default"
+}
+#SUBNET
+#Public subnet
+resource "aws_subnet" "demo-public" {
+  vpc_id  = aws_vpc.demo-vpc.id
+  cidr_block = "10.0.0.0/24"
+  availability_zone = "us-east-1a"
+}
+#Private subnet
+resource "aws_subnet" "demo-private" {
+  vpc_id  = aws_vpc.demo-vpc.id
+  cidr_block = "10.0.2.0/24"
+  availability_zone = "us-east-1b"
+}
+#Internet GW
+resource "aws_internet_gateway" "demo-IGW" {
+    vpc_id  =  aws_vpc.demo-vpc.id
+}
+
+#Route Table
+resource "aws_route_table" "demo-route-table" {
+    vpc_id  =  aws_vpc.demo-vpc.id
+
+    route {
+        cidr_block = "0.0.0.0/0"
+        gateway_id = aws_internet_gateway.demo-IGW.id
+    }
+}
+
+resource "aws_route_table_association" "demo-route-table-acc" {
+    subnet_id = aws_subnet.demo-public.id
+    route_table_id = aws_route_table.demo-route-table.id
+}
+#security_group
+resource "aws_security_group" "allow_ssh" {
+  name        = "allow_ssh_sg"
+  description = "Allow SSH inbound connections"
+  vpc_id  =  aws_vpc.demo-vpc.id
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+}
+#EC2-instance
+resource "aws_instance" "demo_instance" {
+  ami           = "ami-047a51fa27710816e"
+  instance_type = "t2.micro"
+  key_name = "Lenovo T410"
+  vpc_security_group_ids = [ aws_security_group.allow_ssh.id ]
+  subnet_id = aws_subnet.demo-public.id
+  associate_public_ip_address = true
+}
