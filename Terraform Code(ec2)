@@ -2,8 +2,8 @@ NEW VPC,SUBNET AND EC2
 
 provider "aws" {
   version    = "~> 3.0"
-  access_key = "AKIAYZQN4TXVUA6LYEOO"
-  secret_key = "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"
+  access_key = "AKIN4TxxxxxXLYEOO"
+  secret_key = "XG9T/2Q1fKhgNxxxxxxxxxxx90ebIP5gWfQZR"
   region     = "us-east-1"
 }
 #VPC
