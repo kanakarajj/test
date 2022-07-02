@@ -2,8 +2,8 @@ NEW VPC,SUBNET AND EC2
 
 provider "aws" {
   version    = "~> 3.0"
-  access_key = "AKIN4TxxxxxXLYEOO"
-  secret_key = "XG9T/2Q1fKhgNxxxxxxxxxxx90ebIP5gWfQZR"
+  access_key = "AKIAVKYW5OMY2QAEVT73"
+  secret_key = "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"
   region     = "us-east-1"
 }
 #VPC
@@ -67,7 +67,7 @@ resource "aws_security_group" "allow_ssh" {
 resource "aws_instance" "demo_instance" {
   ami           = "ami-047a51fa27710816e"
   instance_type = "t2.micro"
-  key_name = "Lenovo T410"
+  key_name = "New"
   vpc_security_group_ids = [ aws_security_group.allow_ssh.id ]
   subnet_id = aws_subnet.demo-public.id
   associate_public_ip_address = true
