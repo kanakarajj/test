@@ -1,0 +1,17 @@
+name: My First Workflow
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install Apache with HTTPS support
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y apache2 openssl
+          sudo a2enmod ssl
+          sudo service apache2 restart
