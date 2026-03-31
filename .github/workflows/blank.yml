@@ -3,6 +3,7 @@ name: My First Workflow
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch:   # 👈 enables manual trigger
 
 jobs:
   build:
@@ -12,6 +13,4 @@ jobs:
       - name: Install Apache with HTTPS support
         run: |
           sudo apt-get update
-          sudo apt-get install -y apache2 openssl
-          sudo a2enmod ssl
-          sudo systemctl restart apache2
+          sudo uptime
