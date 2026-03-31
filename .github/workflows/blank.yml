@@ -10,7 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install Apache with HTTPS support
+      - name: Check the Uptime time
         run: |
           sudo apt-get update
           sudo uptime
+
+    steps:
+      - name: Check the Worker and uname -2
+        run: |
+          sudo uname -r
+          sudo w
+
+
